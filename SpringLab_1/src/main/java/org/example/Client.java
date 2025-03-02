@@ -115,15 +115,12 @@ public class Client {
         }
 
             String registrationPlate = rentedVehicles.remove(choice - 1);
-            System.out.println("DEBUG: Wybrano pojazd do zwrotu: " + registrationPlate);
 
             boolean isReturned = vehicleRepository.returnVehicle(registrationPlate);
 
         if (isReturned) {
             System.out.println("Pojazd " + registrationPlate + " został zwrócony.");
 
-            //Usuwamy pojazd z listy klienta
-            System.out.println("DEBUG: Lista po zwrocie: " + rentedVehicles);
 
             //Zwrócono wszystkie pojazdy, usuwamy klienta
             if (rentedVehicles.isEmpty()) {
@@ -131,7 +128,6 @@ public class Client {
                 System.out.println("Usunięto klienta, bo zwrócił wszystkie pojazdy.");
             }
 
-            //Zapisujemy aktualizację klientów
             saveClientsToFile();
         } else {
             System.out.println("Nie udało się zwrócić pojazdu! Spróbuj ponownie.");
@@ -149,21 +145,21 @@ public class Client {
             System.out.println("3 - Zwróć pojazd");
             System.out.println("4 - Wyjdź z wypożyczalni");
 
-            int choice = -1; // Inicjalizacja zmiennej do przechowywania wyboru
+            int choice = -1;
 
             while (true) {
                 System.out.print("Wybierz swoją opcję: ");
                 if (scanner.hasNextInt()) {
                     choice = scanner.nextInt();
-                    scanner.nextLine(); // Oczyszczenie bufora wejścia
+                    scanner.nextLine();
                     if (choice >= 1 && choice <= 4) {
-                        break; // Jeśli wybór jest poprawny (1-4), wychodzimy z pętli
+                        break;
                     } else {
                         System.out.println("Niepoprawna opcja");
                     }
                 } else {
                     System.out.println("Błędny format");
-                    scanner.next(); // Oczyszczenie błędnego wejścia
+                    scanner.next();
                 }
             }
 
