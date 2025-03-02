@@ -6,18 +6,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class VehicleRepository implements IVehicleRepository{
+public class VehicleRepository implements IVehicleRepository {
     List<Vehicle> vehicles;
+
     public VehicleRepository(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
+        loadVehiclesFromFile("vehicles.csv");
     }
 
-    private void isExists(String filename) {
+
+    private void loadVehiclesFromFile(String filename) {
         Path path = Paths.get(filename);
         if (!Files.exists(path)) {
             System.out.println("Plik nie istnieje");
             return;
         }
+
         try (BufferedReader reader = Files.newBufferedReader(path)) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -32,61 +36,65 @@ public class VehicleRepository implements IVehicleRepository{
     }
 
     private Vehicle parseVehicle(String csvLine) {
-        String[] parts = csvLine.split(",");
-        if (parts.length < 5) {
+        String[] parts = csvLine.split(";");
+        if (parts.length < 6) {
             return null;
         }
 
         String brand = parts[0];
         String model = parts[1];
-        Integer year =Integer.parseInt(parts[2]);
+        Integer year = Integer.parseInt(parts[2]);
         Float price = Float.parseFloat(parts[3]);
         Boolean rented = Boolean.parseBoolean(parts[4]);
         String registrationPlate = parts[5];
 
-        if (parts[6] !=null){
+        if (parts.length > 6) {
             String category = parts[6];
-            Vehicle motorcycle = new Motorcycle(brand,model,year,price,rented,registrationPlate,category);
+            Vehicle motorcycle = new Motorcycle(brand, model, year, price, rented, registrationPlate, category);
             vehicles.add(motorcycle);
         } else {
-            Vehicle car = new Car(brand,model,year,price,rented,registrationPlate);
+            Vehicle car = new Car(brand, model, year, price, rented, registrationPlate);
             vehicles.add(car);
         }
-
         return null;
     }
 
     @Override
-    public void rentVehicle(String registrationPlate) {
-        for (Vehicle vehicle : vehicles){
-            if (registrationPlate == vehicle.getRegistrationPlate()){
-                if (!vehicle.getRented()){
+    public boolean rentVehicle(String registrationPlate) {
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getRegistrationPlate().equals(registrationPlate)) {
+                if (!vehicle.getRented()) {
                     vehicle.setRented(true);
-                    System.out.println("Udało się zwrócić pojazd");
+                   // System.out.println("Twój pojazd został wypożyczony");
+                    save("vehicles.csv",null);
+                    return true;
                 } else {
-                    System.out.println("Nie możesz wypożyczyć tego pojazdu, ponieważ już jest wypożyczony");
+                  //  System.out.println("Nie możesz wypożyczyć tego pojazdu, ponieważ już jest wypożyczony");
+                    return false;
                 }
             }
         }
-        System.out.println("Nie ma pojazdu z taką rejestracją");
+      //  System.out.println("Nie znaleziono pojazdu o takim numerze rejestracyjnym");
+        return false;
     }
 
     @Override
-    public void returnVehicle(String registrationPlate) {
+    public boolean returnVehicle(String registrationPlate) {
         for (Vehicle vehicle : vehicles) {
-
-            if (registrationPlate == vehicle.getRegistrationPlate()) {
-                if (!vehicle.getRented()) {
-                    vehicle.setRented(true);
-                    System.out.println("Pojazd zwrócony");
-                    ;
+            if (vehicle.getRegistrationPlate().equals(registrationPlate)) {
+                if (vehicle.getRented()) {
+                    vehicle.setRented(false);
+            //        System.out.println("Pojazd zwrócono");
+                    save("vehicles.csv",null);
+                    return true;
                 } else {
-                    System.out.println("Chcesz zwrócić pojazd, który nie jest wypożyczony!");
+            //        System.out.println("Chcesz zwrócić pojazd, który nie jest wypożyczony!");
+                    return false;
                 }
-            } else {
-                System.out.println("Nie ma twojego pojazdu w bazie!");
             }
         }
+    //    System.out.println("Nie znaleziono pojazdu o takim numerze rejestracyjnym!");
+        return false;
     }
 
     @Override
@@ -96,11 +104,40 @@ public class VehicleRepository implements IVehicleRepository{
 
     @Override
     public void save(String filename, Vehicle vehicleToSave) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))){
-            writer.append(vehicleToSave.toCsv());
-            writer.newLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            if (vehicleToSave != null) {
+                //jak przekazano obiekt, to dopisujemy go do pliku
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+                    writer.append(vehicleToSave.toCsv());
+                    writer.newLine();
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
+            } else {
+                //Nadpisywanie pliku
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false))) {
+                    for (Vehicle vehicle : vehicles) {
+                        writer.write(vehicle.toCsv());
+                        writer.newLine();
+                    }
+                    System.out.println();
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
+            }
+    }
+
+    @Override
+    public void showVehicles() {
+        if (vehicles.isEmpty()){
+            System.out.println("Brak dostępnych pojazdów!\n");
+            return;
+        }
+        System.out.println("Dostępne pojazdy: \n");
+        for (Vehicle vehicle : vehicles){
+            if (!vehicle.getRented()){
+                System.out.println(vehicle);
+            }
         }
     }
 }

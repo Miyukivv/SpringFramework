@@ -52,9 +52,6 @@ public abstract class Vehicle {
         this.registrationPlate = registrationPlate;
     }
 
-    public Vehicle() {
-
-    }
 
     public abstract String toCsv();
 

@@ -7,7 +7,7 @@ public class Car extends Vehicle {
 
     @Override
     public String toCsv() {
-        return  getBrand() + "," + getModel() + "," + getYear() + "," + getPrice() + "," + getRented() + "," + getRegistrationPlate();
+        return  getBrand() + ";" + getModel() + ";" + getYear() + ";" + getPrice() + ";" + getRented() + ";" + getRegistrationPlate();
     }
 
     @Override
