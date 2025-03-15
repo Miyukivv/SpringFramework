@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+//Nie możemy stworzyć instancji klasy abstrakcyjnej, metody nie muszą mieć implementacji ale muszą być w potomnych klasach
 
 public abstract class Vehicle {
     private String brand;
@@ -11,10 +13,9 @@ public abstract class Vehicle {
     private Integer year;
     private Float price;
     private Boolean rented;
-
-    //pole które będzie jednoznacznie odróżniało od siebie pojazdy
     private String registrationPlate;
 
+    public abstract Vehicle clone();
     public String getBrand() {
         return brand;
     }
@@ -38,7 +39,6 @@ public abstract class Vehicle {
     public String getRegistrationPlate() {
         return registrationPlate;
     }
-
     public void setRented(Boolean rented) {
         this.rented = rented;
     }

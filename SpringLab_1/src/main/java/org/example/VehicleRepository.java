@@ -4,18 +4,22 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleRepository implements IVehicleRepository {
-    List<Vehicle> vehicles;
-
+    private List<Vehicle> vehicles;
     public VehicleRepository(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
         loadVehiclesFromFile("vehicles.csv");
+//        System.out.println("Adresy pojazdów w konstruktorze w repozytorium: ");
+//        for(Vehicle v :vehicles) {
+//            System.out.println(v.hashCode());
+//        }
     }
 
 
-    private void loadVehiclesFromFile(String filename) {
+    void loadVehiclesFromFile(String filename) {
         Path path = Paths.get(filename);
         if (!Files.exists(path)) {
             System.out.println("Plik nie istnieje");
@@ -82,7 +86,7 @@ public class VehicleRepository implements IVehicleRepository {
     public boolean returnVehicle(String registrationPlate) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getRegistrationPlate().equals(registrationPlate)) {
-                if (vehicle.getRented()) {
+                if (vehicle.getRented()){
                     vehicle.setRented(false);
             //        System.out.println("Pojazd zwrócono");
                     save("vehicles.csv",null);
@@ -99,12 +103,23 @@ public class VehicleRepository implements IVehicleRepository {
 
     @Override
     public List<Vehicle> getVehicles() {
-        return vehicles;
+        List<Vehicle> clonedVehicles=new ArrayList<>();
+        for (Vehicle vehicle : vehicles){
+            clonedVehicles.add(vehicle.clone());
+        }
+        return clonedVehicles;
     }
-
+    public boolean addVehicle(Vehicle newVehicle) {
+        if (vehicles.contains(newVehicle)) {
+            System.out.println("Pojazd z numerem rejestracyjnym " + newVehicle.getRegistrationPlate() + " już istnieje!");
+            return false;
+        }
+        vehicles.add(newVehicle);
+        save("vehicles.csv", newVehicle);
+        return true;
+    }
     @Override
     public void save(String filename, Vehicle vehicleToSave) {
-
             if (vehicleToSave != null) {
                 //jak przekazano obiekt, to dopisujemy go do pliku
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
@@ -126,7 +141,6 @@ public class VehicleRepository implements IVehicleRepository {
                 }
             }
     }
-
     @Override
     public void showVehicles() {
         if (vehicles.isEmpty()){
