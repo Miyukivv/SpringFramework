@@ -94,7 +94,6 @@ public class RentalService {
         }
         User newUser = new User(login, password, role);
 
-        //przekazujemy do metody ktora zapisuje klienta w repozytorium(?), musimy jeszcze sprawdzac czy jest juz uzytkownik o tym loginie czy nie
         userRepository.addUser(newUser);
         userRepository.save(null);
         System.out.println("Zostałeś zarejestrowany!");
@@ -145,7 +144,7 @@ public class RentalService {
                         System.out.println(user.toShowAdmin());
                     }
                     break;
-                case 2: //Dodaj pojazd
+                case 2: //Dodaj pojazd (nie chcemy dodawac takiego samego, co juz jest)
                     Vehicle newVehicle;
                     System.out.println("Jesteś przy dodawaniu pojazdu: ");
                     System.out.println("1 - jeśli chcesz dodać samochód");
@@ -191,14 +190,12 @@ public class RentalService {
                     }
                     case 3: //Usuń pojazd
                         vehicleRepository.showVehicles();
-                        if (vehicleRepository.getVehicles().isEmpty()) {
+                        if (vehicleRepository.getVehicles().isEmpty() || vehicleRepository.showVehicles()==false) {
                             System.out.println("Nie ma zadnych pojazdow do usuniecia");
                             break;
                         }
-
                         System.out.println("\n Wpisz numer tablicy rejestracyjnej pojazdu, ktorego chcesz usunac");
                         String registrationPlateToRemoveVehicle=scanner.next();
-
                         vehicleRepository.removeVehicle(registrationPlateToRemoveVehicle);
 
                         break;

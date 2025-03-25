@@ -9,5 +9,5 @@ public interface IVehicleRepository {
     public Vehicle returnVehicle(String registrationPlate);
 
     public void save(String filename, Vehicle Vehicle_to_save);
-    public void showVehicles();
+    public boolean showVehicles();
 }

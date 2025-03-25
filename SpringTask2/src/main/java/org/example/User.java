@@ -43,20 +43,18 @@ public class User {
                     }
                 }
             }
-
-            //Dodac jeszcze ze haslo swoje moze sobie wyswietlic
             if (rentedVehiclesCsv.equals(null)){
-                string="login:" + login + " " +
+                string="login:" + login +  " password: " + password +
                         "rola:" + role +  " " +
-                        "wypożyczony pojazd:" + "brak" +"\n"; //to poprawic, bo nie pokazuje brak, tylko null
+                        "wypożyczony pojazd:" + "brak" +"\n";
             } else{
-                string="login:" + login  +
+                string="login:" + login  + " password: " + password +
                         " rola:" + role  +
                         " wypożyczone pojazdy:" + rentedVehiclesCsv + "\n";
             }
         }
         else {
-            string ="login: " + login +
+            string ="login: " + login + " password: " + password +
                     " rola=" + role + "\n";
         }
         return string;

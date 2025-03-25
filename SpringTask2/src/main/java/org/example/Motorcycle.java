@@ -3,14 +3,11 @@ package org.example;
 import java.util.Objects;
 
 public class Motorcycle extends Vehicle{
-    private String category; //kategoriaPrawaJazdy
+    private String category;
     public Motorcycle(String brand, String model, Integer year, Float price, Boolean rented, String registrationPlate, String category) {
         super(brand, model, year, price, rented, registrationPlate);
         this.category=category;
     }
-
-    //jak jest lista pojazdów w repozytorium, to żeby nie było tak że w mainie zwrocona zostanie lista, i zmienimy sobie jakis element, to oryginalna lista ma nie ulec zmianie
-    //wstawiajac pojazd, zmieniamy w mainie, ten ktory jest w repozytorium w liscie to zeby nie ulegl zmianie
 
     @Override
     public Vehicle clone() {

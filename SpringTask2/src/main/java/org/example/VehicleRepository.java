@@ -179,16 +179,22 @@ public class VehicleRepository implements IVehicleRepository {
             }
     }
     @Override
-    public void showVehicles() {
+    public boolean showVehicles() {
         if (vehicles.isEmpty()){
             System.out.println("Brak dostępnych pojazdów!\n");
-            return;
+            return false;
         }
         System.out.println("Dostępne pojazdy: ");
+        boolean isAnyVehicle=false;
         for (Vehicle vehicle : vehicles){
             if (!vehicle.getRented()){
                 System.out.println(vehicle);
+                isAnyVehicle=true;
             }
         }
+        if (isAnyVehicle==false){
+            System.out.println("Wszystkie pojazdy zostały wypożyczone!");
+        }
+        return isAnyVehicle;
     }
 }
