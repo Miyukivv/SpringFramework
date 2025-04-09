@@ -14,6 +14,7 @@ import org.example.repositories.impl.VehicleJsonRepository;
 import org.example.services.AuthService;
 import org.example.services.RentalService;
 import org.example.services.VehicleService;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,10 +24,6 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-
-//        JdbcConnectionManager jdbcConnectionManager = JdbcConnectionManager.getInstance();
-//        Connection connection = jdbcConnectionManager.getConnection();
-
         UserRepository userRepo;
         VehicleRepository vehicleRepo;
         RentalRepository rentalRepo;
@@ -60,8 +57,8 @@ public class Main {
         AuthService authService = new AuthService(userRepo);
 
         App app = new App(authService, vehicleService, rentalService);
+
+
         app.run();
-//
-//        connection.close();
     }
 }

@@ -6,7 +6,9 @@ import org.example.services.AuthService;
 import org.example.services.RentalService;
 import org.example.services.VehicleService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class App 
@@ -59,6 +61,21 @@ public class App
                     System.out.print("Podaj numer tablicy: ");
                     String plate = scanner.nextLine();
 
+                    System.out.print("Podaj cenę: ");
+                    Double price = Double.valueOf(scanner.nextLine());
+
+
+                    Map<String, Object> attributes = new HashMap<>();
+                    System.out.println("Dodaj dodatkowe atrybuty pojazdu (wpisz 'koniec' aby zakończyć):");
+                    while (true) {
+                        System.out.print("Podaj nazwę atrybutu: ");
+                        String key = scanner.nextLine();
+                        if ("koniec".equalsIgnoreCase(key)) break;
+
+                        System.out.print("Podaj wartość atrybutu: ");
+                        String value = scanner.nextLine();
+                        attributes.put(key, value);
+                    }
                     Vehicle newVehicle = new Vehicle() {
                     };
                     newVehicle.setCategory(category);
@@ -66,6 +83,8 @@ public class App
                     newVehicle.setModel(model);
                     newVehicle.setYear(year);
                     newVehicle.setPlate(plate);
+                    newVehicle.setPrice(price);
+                    newVehicle.setAttributes(attributes);
 
                     vehicleService.addVehicle(newVehicle);
                     System.out.println("Dodano pojazd!");

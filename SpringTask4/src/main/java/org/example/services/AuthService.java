@@ -21,7 +21,6 @@ public class AuthService {
             System.out.println("Użytkownik o podanym loginie już istnieje");
             return null;
         }
-
         if (role == null || role.isBlank()) {
             role = "user";
         }
@@ -31,6 +30,7 @@ public class AuthService {
 
         userRepository.save(newUser);
         System.out.println("Pomyślnie ");
+
         return newUser;
     }
 

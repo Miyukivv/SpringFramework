@@ -14,7 +14,7 @@ import java.util.*;
 
 public class VehicleJdbcRepository implements VehicleRepository {
     private final Gson gson = new Gson();
-
+    private Long id;
     @Override
     public List<Vehicle> findAll() {
         List<Vehicle> list = new ArrayList<>();
