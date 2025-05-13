@@ -13,7 +13,6 @@ public class Main {
     public static void main(String[] args) {
         Session session = HibernateConfig.getSessionFactory().openSession();
 
-
         VehicleHibernateRepository vehicleRepo = new VehicleHibernateRepository(session);
         RentalHibernateRepository rentalRepo = new RentalHibernateRepository(session);
         UserHibernateRepository userRepo = new UserHibernateRepository(session);

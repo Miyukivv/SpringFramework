@@ -34,6 +34,9 @@ public class Vehicle {
     private int year;
     private String plate;
 
+//    @Column(name = "is_active")
+//    @Builder.Default
+//    private boolean isActive = true;
     @Type(JsonBinaryType.class)
         @Column(columnDefinition = "jsonb")
         @Builder.Default

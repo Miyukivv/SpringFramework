@@ -52,4 +52,14 @@ public class RentalHibernateRepository implements RentalRepository {
         query.setParameter("vehicleId", vehicleId);
         return query.uniqueResultOptional();
     }
+
+    @Override
+    public List<Rental> findByUserIdAndReturnDateIsNull(String userId) {
+        return session.createQuery(
+                        "FROM Rental r WHERE r.user.id = :userId AND r.returnDate IS NULL",
+                        Rental.class)
+                .setParameter("userId", userId)
+                .list();
+    }
+
 }

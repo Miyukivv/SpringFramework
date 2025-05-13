@@ -7,6 +7,7 @@ import org.example.models.Rental;
 import org.example.models.Vehicle;
 import org.example.services.IVehicleService;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,14 +50,21 @@ public class VehicleHibernateService implements IVehicleService {
             return saved;
         }
     }
-    public void deleteById(String id) {
+    public boolean deleteById(String id) {
         try (Session session = HibernateConfig.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            vehicleRepo.setSession(session);
-            vehicleRepo.deleteById(id);
-            session.getTransaction().commit();
+            Transaction tx = session.beginTransaction();
+
+            Vehicle vehicle = session.get(Vehicle.class, id);
+            if (vehicle == null) {
+                return false;
+            }
+
+            session.remove(vehicle);
+            tx.commit();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
     @Override

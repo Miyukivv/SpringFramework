@@ -117,4 +117,16 @@ public class RentalHibernateService implements IRentalService {
             return rentalRepo.findAll();
         }
     }
+
+    // RentalHibernateService.java
+    public List<Vehicle> findActiveVehiclesByUserId(String userId) {
+        try (Session session = HibernateConfig.getSessionFactory().openSession()) {
+            return session.createQuery(
+                            "SELECT r.vehicle FROM Rental r " +
+                                    "WHERE r.user.id = :uid AND r.returnDate IS NULL",
+                            Vehicle.class)
+                    .setParameter("uid", userId)
+                    .list();
+        }
+    }
 }

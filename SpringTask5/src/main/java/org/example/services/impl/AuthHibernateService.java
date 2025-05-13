@@ -7,6 +7,7 @@ import org.example.services.IAuthService;
 import org.hibernate.Session;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,8 +17,21 @@ public class AuthHibernateService implements IAuthService {
     public AuthHibernateService(UserHibernateRepository userRepo) {
         this.userRepo = userRepo;
     }
+    public List<User> findAllUsers() {
+        try (Session session = HibernateConfig.getSessionFactory().openSession()) {
+            userRepo.setSession(session);
+            return userRepo.findAll();
+        }
+    }
+    private static void showAllUsers(AuthHibernateService authHibernateService) {
+        List<User> users = authHibernateService.findAllUsers();
+        if (users.isEmpty()) {
+            System.out.println("Brak zarejestrowanych użytkowników.");
+        } else {
+            users.forEach(System.out::println);
+        }
+    }
     @Override
-
     public boolean register(String login, String rawPassword, String role) {
         try (Session session = HibernateConfig.getSessionFactory().openSession()) {
             session.beginTransaction();
