@@ -17,8 +17,6 @@ public class Client {
         loadClientsFromFile();
     }
 
-    //Rejestracja
-
     public String getLogin(){
         return login ;
     }
@@ -140,12 +138,11 @@ public class Client {
         while (true){
             System.out.println("~~Wypożyczalnia pojazdów~~");
             System.out.println("Dostępne opcje: ");
-//            System.out.println("1 - Zarejestruj się");
-//            System.out.println("2 - Zaloguj się");
-            System.out.println("3 - Wyświetl dostępne pojazdy");
-            System.out.println("4 - Wypożycz pojazd ");
-            System.out.println("5 - Zwróć pojazd");
-            System.out.println("6 - Wyjdź z wypożyczalni ");
+
+            System.out.println("1 - Wyświetl dostępne pojazdy");
+            System.out.println("2 - Wypożycz pojazd ");
+            System.out.println("3 - Zwróć pojazd");
+            System.out.println("4 - Wyjdź z wypożyczalni ");
 
             int choice = -1;
 
@@ -166,31 +163,19 @@ public class Client {
             }
             switch (choice) {
                 case 1:
-                    System.out.println("Wpisz swój login:\n");
-                    String login=scanner.next();
-                    System.out.println("Wpisz swoje haslo:\n");
-                    String password=scanner.next();
-
-
-                   // registration(login,password);
-                    break;
-                case 2:
-
-                    break;
-                case 3:
                     vehicleRepository.showVehicles();
                     break;
-                case 4:
+                case 2:
                     String registrationPlate;
 
                     System.out.println("Podaj numer rejestracyjny pojazdu, który chcesz wypożyczyć: ");
                     registrationPlate = scanner.nextLine();
                     rentVehicleDependOnTheClient(vehicleRepository, registrationPlate);
                     break;
-                case 5:
+                case 3:
                     returnVehicleDependOnTheClient(vehicleRepository);
                     break;
-                case 6:
+                case 4:
                     System.out.println("Wyszedłeś z wypożyczalni");
                     return;
             }

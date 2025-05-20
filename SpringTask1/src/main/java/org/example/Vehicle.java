@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-//Nie możemy stworzyć instancji klasy abstrakcyjnej, metody nie muszą mieć implementacji ale muszą być w potomnych klasach
 
 public abstract class Vehicle {
     private String brand;

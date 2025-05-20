@@ -69,16 +69,16 @@ public class VehicleRepository implements IVehicleRepository {
             if (vehicle.getRegistrationPlate().equals(registrationPlate)) {
                 if (!vehicle.getRented()) {
                     vehicle.setRented(true);
-                   // System.out.println("Twój pojazd został wypożyczony");
+                    System.out.println("Twój pojazd został wypożyczony");
                     save("vehicles.csv",null);
                     return true;
                 } else {
-                  //  System.out.println("Nie możesz wypożyczyć tego pojazdu, ponieważ już jest wypożyczony");
+                    System.out.println("Nie możesz wypożyczyć tego pojazdu, ponieważ już jest wypożyczony");
                     return false;
                 }
             }
         }
-      //  System.out.println("Nie znaleziono pojazdu o takim numerze rejestracyjnym");
+        System.out.println("Nie znaleziono pojazdu o takim numerze rejestracyjnym");
         return false;
     }
 
@@ -88,16 +88,16 @@ public class VehicleRepository implements IVehicleRepository {
             if (vehicle.getRegistrationPlate().equals(registrationPlate)) {
                 if (vehicle.getRented()){
                     vehicle.setRented(false);
-            //        System.out.println("Pojazd zwrócono");
+                    System.out.println("Pojazd zwrócono");
                     save("vehicles.csv",null);
                     return true;
                 } else {
-            //        System.out.println("Chcesz zwrócić pojazd, który nie jest wypożyczony!");
+                    System.out.println("Chcesz zwrócić pojazd, który nie jest wypożyczony!");
                     return false;
                 }
             }
         }
-    //    System.out.println("Nie znaleziono pojazdu o takim numerze rejestracyjnym!");
+        System.out.println("Nie znaleziono pojazdu o takim numerze rejestracyjnym!");
         return false;
     }
 

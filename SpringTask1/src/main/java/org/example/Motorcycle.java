@@ -8,8 +8,6 @@ public class Motorcycle extends Vehicle{
         super(brand, model, year, price, rented, registrationPlate);
         this.category=category;
     }
-    //jak jest lista pojazdów w repozytorium, to żeby nie było tak że w mainie zwrocona zostanie lista, i zmienimy sobie jakis element, to oryginalna lista ma nie ulec zmianie
-    //wstawiajac pojazd, zmieniamy w mainie, ten ktory jest w repozytorium w liscie to zeby nie ulegl zmianie
 
     @Override
     public Vehicle clone() {
